@@ -44,6 +44,7 @@ npm -v    # should show 11.7.0
 ```bash
 git clone <REPO_URL>
 cd orbitApp
+```
 
 ## 4. Install Dependencies
 npm install
