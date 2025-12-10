@@ -79,7 +79,7 @@ Open a Pull Request:
 - Must be reviewed by at least one team member
 - No direct commits to main
 
-## If you make a change and it is not being displayed on the app, youll need to restart the app and run the start command again. :)
+## If you make a change and it is not being displayed on the app, you'll need to restart the app and run the start command again. :)
 - In your terminal do command c to stop
 - do the start commadn again: npx expo start
 - Shake your device and click reload
