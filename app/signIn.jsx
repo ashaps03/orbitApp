@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import styles from './styles/signInStyles'; 
+import SignInCard from './components/SignInCard'
 
 
 const SignIn = () => {
@@ -54,7 +55,7 @@ const SignIn = () => {
 
           {/* global blur */}
           <BlurView
-            intensity={200}
+            intensity={50}
             tint="dark"
             style={RNStyleSheet.absoluteFill}
             pointerEvents="none"
@@ -73,12 +74,7 @@ const SignIn = () => {
         
         {/* text in the foreground*/}
         <View style={styles.content}>
-          <Text style={styles.h1}>Sign in</Text>
-          <Text style={styles.h2}>to your account</Text>
-          <Text style={styles.h4}>Welcome back you've been missed</Text>
-          <Link style={styles.href} href="/landingPage">
-            Back to landing Page
-          </Link>
+        <SignInCard/>
         </View>
 
       </View>
