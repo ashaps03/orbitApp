@@ -49,7 +49,21 @@ cd orbitApp
 ## 4. Install Dependencies
 npm install
 
-## 5. Run the App (Expo)
+## 5. Environment Configuration
+
+Make a file in repo root named `.env` containing these keys:
+```
+EXPO_PUBLIC_FIREBASE_API_KEY=
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=
+EXPO_PUBLIC_FIREBASE_PROJECT_ID=
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+EXPO_PUBLIC_FIREBASE_APP_ID=
+```
+
+Add the Firebase Config keys to `.env`. This should NOT be committed to the repo; double check `.gitignore` contains `.env`.
+
+## 6. Run the App (Expo)
 
 Start the server:
 npx expo start
@@ -60,7 +74,7 @@ i = iOS Simulator
 a = Android Emulator
 Or scan the QR code with Expo Go
 
-## 6. Git Workflow (Team Rules)
+## 7. Git Workflow (Team Rules)
 
 Pull latest code:
 git pull origin main
