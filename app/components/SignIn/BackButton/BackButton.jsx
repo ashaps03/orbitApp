@@ -12,7 +12,7 @@ export default function BackButton({
 
   return (
     <Pressable
-      onPress={() => router.back()}
+      onPress={() => router.back()} // Navigate back to the previous screen
       style={[
         styles.container,
         {

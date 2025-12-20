@@ -22,7 +22,10 @@ export default function SignInCard({
 
   return (
     <View style={styles.outer}>
+
       <View style={styles.card}>
+        
+        {/* This is the animated fill layer that creates the press effectUsing AuthField component for email and password inputs */}
         <AuthField
           label="Email"
           value={email}
@@ -33,6 +36,7 @@ export default function SignInCard({
           textContentType="emailAddress"
         />
 
+        {/* Using AuthField component for email and password inputs */}
         <AuthField
           label="Password"
           value={password}
@@ -43,6 +47,7 @@ export default function SignInCard({
           textContentType="password"
         />
 
+        {/* Sign In Button  */}
         <SignInButton
           title="Sign In"
           onPress={onSubmit}

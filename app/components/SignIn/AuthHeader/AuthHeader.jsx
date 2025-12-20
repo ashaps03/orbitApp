@@ -8,6 +8,7 @@ import {
 } from '@expo-google-fonts/barlow';
 import styles from './AuthHeaderStyles';
 
+// This is the header (Need to fix this so that we pass it as a prop to the SignIn page instead of hardcoding it here)
 export default function AuthHeader({
   title = 'Sign in',
   subtitle = 'to your account',

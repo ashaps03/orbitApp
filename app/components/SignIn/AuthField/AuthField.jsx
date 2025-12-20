@@ -21,6 +21,7 @@ export default function AuthField({
   });
   if (!fontsLoaded) return null;
 
+  // Render the AuthField component with label and TextInput (passing as a prop and sending it to the parent -> SignInCard)
   return (
     <View style={[styles.field, style]}>
       <Text style={[styles.label, labelStyle]}>{label}</Text>

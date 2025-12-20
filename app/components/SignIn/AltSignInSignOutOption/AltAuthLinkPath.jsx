@@ -3,6 +3,7 @@ import { Text, StyleSheet } from 'react-native';
 import { Link } from 'expo-router';
 import { useFonts, Barlow_400Regular } from '@expo-google-fonts/barlow';
 
+// This is the alternative link path component used 
 export default function AuthFooterLink({
   text,
   linkText,
@@ -12,6 +13,7 @@ export default function AuthFooterLink({
   const [fontsLoaded] = useFonts({ Barlow_400Regular });
   if (!fontsLoaded) return null;
 
+  // Can set the link and text via props (In this case we are doing it through the SignIn page)
   return (
     <Text style={[styles.muted, style]}>
       {text}{' '}

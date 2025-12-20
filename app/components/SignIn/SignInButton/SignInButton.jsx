@@ -14,12 +14,17 @@ export default function SignInButton({
   gradientColors = ['#1E31FB', '#FFFFFF'],
   innerBg = '#000000',
 }) {
+
+  // Animation value for the fill layer
+
   const fillAnim = useRef(new Animated.Value(1)).current;
 
   const [fontsLoaded] = useFonts({
     Barlow_500Medium,
   });
   if (!fontsLoaded) return null;
+
+  // Animation function to handle press in effect
 
   const animateIn = () => {
     Animated.timing(fillAnim, {
@@ -32,12 +37,15 @@ export default function SignInButton({
 
   return (
     <View style={[styles.shadowWrap, style, disabled && styles.disabledOuter]}>
+
+      {/* This is the gradient well use as border*/}
       <LinearGradient
         colors={gradientColors}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.borderWrap}
       >
+        {/* This is the inner touchable area with animation */}
         <TouchableOpacity
           activeOpacity={1}
           disabled={disabled}
@@ -45,6 +53,7 @@ export default function SignInButton({
           onPressIn={animateIn}
           style={styles.inner}
         >
+        {/* This is the animated fill layer that creates the press effect */}
           <Animated.View
             pointerEvents="none"
             style={[

@@ -12,21 +12,23 @@ export default function GoogleSignInSection({
   const [fontsLoaded] = useFonts({ Barlow_600SemiBold });
   if (!fontsLoaded) return null;
 
+  // This is the Google Sign-In section with divider 
   return (
     <View style={[styles.container, style]}>
       <View style={styles.dividerRow}>
-        <View style={styles.line} />
+        <View style={styles.line} /> 
         <Text style={styles.orText}>{text}</Text>
         <View style={styles.line} />
       </View>
 
+    {/* Here is the google button with the image as icon */}
       <TouchableOpacity
         activeOpacity={0.85}
         onPress={onGooglePress}
         style={styles.googleOuter}
       >
         <View style={styles.googleInner}>
-        <Image source={googleLogo} style={styles.googleIcon} resizeMode="contain" />
+        <Image source={googleLogo} style={styles.googleIcon} resizeMode="contain" /> 
         </View>
       </TouchableOpacity>
     </View>
