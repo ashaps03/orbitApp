@@ -1,9 +1,8 @@
-import React, { useRef } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Animated } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { View, TouchableOpacity, Text, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts, Barlow_500Medium } from '@expo-google-fonts/barlow';
-import styles from './SignInButtonStyles'
-
+import styles from './SignInButtonStyles';
 
 export default function SignInButton({
   title,
@@ -14,38 +13,47 @@ export default function SignInButton({
   gradientColors = ['#1E31FB', '#FFFFFF'],
   innerBg = '#000000',
 }) {
+  // Disabled should show no fill (opacity 0)
+  const fillAnim = useRef(new Animated.Value(disabled ? 1 : 0)).current;
 
-  // Animation value for the fill layer
+  const [fontsLoaded] = useFonts({ Barlow_500Medium });
 
-  const fillAnim = useRef(new Animated.Value(1)).current;
-
-  const [fontsLoaded] = useFonts({
-    Barlow_500Medium,
-  });
-  if (!fontsLoaded) return null;
-
-  // Animation function to handle press in effect
-
-  const animateIn = () => {
+  // Animate fill layer opacity based on disabled state
+  useEffect(() => {
     Animated.timing(fillAnim, {
-      toValue: 0,       
-      duration: 100,
+      toValue: disabled ? 1 : 0,
+      duration: 200,
       useNativeDriver: true,
     }).start();
+  }, [disabled]);
+
+  if (!fontsLoaded) return null;
+
+  // Handle press in animation
+  const animateIn = () => {
+    if (disabled) return;
+
+    Animated.timing(fillAnim, {
+      toValue: 0.5,
+      duration: 200,
+      useNativeDriver: true,
+    }).start(() =>
+      Animated.timing(fillAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start()
+    );
   };
 
-
   return (
-    <View style={[styles.shadowWrap, style, disabled && styles.disabledOuter]}>
-
-      {/* This is the gradient well use as border*/}
+    <View style={[styles.shadowWrap, style]}>
       <LinearGradient
         colors={gradientColors}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.borderWrap}
       >
-        {/* This is the inner touchable area with animation */}
         <TouchableOpacity
           activeOpacity={1}
           disabled={disabled}
@@ -53,15 +61,11 @@ export default function SignInButton({
           onPressIn={animateIn}
           style={styles.inner}
         >
-        {/* This is the animated fill layer that creates the press effect */}
           <Animated.View
             pointerEvents="none"
             style={[
               styles.fillLayer,
-              {
-                backgroundColor: innerBg,
-                opacity: fillAnim,
-              },
+              { backgroundColor: innerBg, opacity: fillAnim },
             ]}
           />
 

@@ -9,27 +9,46 @@ import AuthHeader from './components/SignIn/AuthHeader/AuthHeader';
 import BackButton from './components/SignIn/BackButton/BackButton';
 import { Animated, Easing } from 'react-native';
 import React, { useRef, useState } from 'react';
+import { validateEmail } from '../utils/emailValidation';
 
 
 const SignIn = () => {
   const handleGoogleSignIn = () => { //Connect to firebase later
-    console.log('Google Sign-In button pressed');
+    console.log('Google Sign-In pressed');
   };
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [emailError, setEmailError] = useState(null);
 
 
+
+  // handle email validation and submission
   const handleSubmit = async () => { 
-    //Connect to firebase later
+    try {
+      validateEmail(email);
+    } catch (error) {
+      console.log("CAUGHT ERROR:", error.message);
+      setEmailError(error.message); 
+      return; 
+    }
     console.log('submit', { email, passwordLength: password.length });
   };
+
+  // handle email input change so we can handle ui updates (error message)
+  const handleEmailChange = (text) => {
+    setEmail(text);
+    if (emailError) setEmailError(null);   // remove error immediately
+  };
+  
+  
 
   return (
     <SafeAreaView style={styles.safe} edges={[]}>
       <View style={styles.container}>
 
+      {/* animating images */}
       <Animated.Image
         source={require('../assets/SignInBackground.png')}
         style={[
@@ -50,24 +69,25 @@ const SignIn = () => {
         {/*foreground*/}
         <View style={styles.content}>
         
-        <BackButton
-          icon={require('../assets/BackIcon.png')}
-          style={{ alignSelf: 'flex-start', marginBottom: 15, marginLeft: 20 }}
-        />
+        {/* components */}
+        <BackButton style={{ alignSelf: 'flex-start', marginLeft: 20 }} />
+
 
         <AuthHeader
           title="Sign in"
           subtitle="to your account"
-          caption="Welcome back you've been missed"
+          caption="Welcome back, you've been missed"
         />
 
         <SignInCard
           email={email}
-          onChangeEmail={setEmail}
+          onChangeEmail={handleEmailChange}
           password={password}
           onChangePassword={setPassword}
           onSubmit={handleSubmit}
+          
           submitDisabled={!email || !password}
+          emailError={emailError}    
         />
 
         <AuthFooterLink

@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { useFonts, Barlow_400Regular, Barlow_500Medium, Barlow_600SemiBold, Barlow_700Bold } from '@expo-google-fonts/barlow';
 import SignInButton from '../SignInButton/SignInButton';
 import AuthField from '../AuthField/AuthField';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 export default function SignInCard({
   email,
@@ -11,6 +12,7 @@ export default function SignInCard({
   onChangePassword,
   onSubmit,
   submitDisabled = false,
+  emailError, 
 }) {
   const [fontsLoaded] = useFonts({
     Barlow_400Regular,
@@ -34,7 +36,17 @@ export default function SignInCard({
           keyboardType="email-address"
           autoCapitalize="none"
           textContentType="emailAddress"
+          hasError={!!emailError}   
         />
+
+        {emailError && (
+
+        <ErrorMessage 
+          text={emailError}
+          style={{ marginBottom: 8}} // optional color override
+        />
+      )}
+
 
         {/* Using AuthField component for email and password inputs */}
         <AuthField
