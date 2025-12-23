@@ -17,7 +17,7 @@ export default function BackButton({
 
     // log the new route AFTER the back navigation
     setTimeout(() => {
-      console.log("🔄 Redirected to:", pathname);
+      console.log(" Back button pressed. Redirected to:", pathname);
     }, 50);
   };
 

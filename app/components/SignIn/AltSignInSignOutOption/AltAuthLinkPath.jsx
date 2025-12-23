@@ -14,7 +14,7 @@ export default function AuthFooterLink({
   if (!fontsLoaded) return null;
 
   const handlePress = () => {
-    console.log("User redirected to the Sign Up page");
+    console.log("Sign up button pressed. User redirected to the Sign Up page");
   };
 
   // Can set the link and text via props (In this case we are doing it through the SignIn page)
