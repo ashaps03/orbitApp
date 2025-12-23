@@ -1,6 +1,9 @@
 import { doc, runTransaction, serverTimestamp } from "firebase/firestore";
 import { db } from "./firebase";
 
+const USERNAME_MIN_LENGTH = 3;
+const USERNAME_MAX_LENGTH = 20;
+
 // Handle duplicate usernames
 export class UsernameTakenError extends Error {
     constructor() {
@@ -19,14 +22,17 @@ export class UsernameSaveError extends Error {
 
 // Save a username
 export async function saveUsername(userId: string, rawUsername: string) {
-    const username = rawUsername.trim().toLowerCase();
+    const username = rawUsername.trim().toLowerCase(); // Normalize username
 
     // Validate username
     if (!username) {
-        throw new UsernameSaveError("Username cannot be empty.");
+        throw new UsernameSaveError("Username is required.");
     }
-    if (username.length < 3) {
-        throw new UsernameSaveError("Username must be at least 3 characters.");
+    if (username.length < USERNAME_MIN_LENGTH) {
+        throw new UsernameSaveError(`Username must be at least ${USERNAME_MIN_LENGTH} characters.`);
+    }
+    if (username.length > USERNAME_MAX_LENGTH) {
+        throw new UsernameSaveError(`Username must be at most ${USERNAME_MAX_LENGTH} characters.`);
     }
     if (!/^[a-z0-9_]+$/.test(username)) {
         throw new UsernameSaveError("Username can only contain letters, numbers, and underscores.");
