@@ -13,11 +13,15 @@ export default function AuthFooterLink({
   const [fontsLoaded] = useFonts({ Barlow_400Regular });
   if (!fontsLoaded) return null;
 
+  const handlePress = () => {
+    console.log("User redirected to the Sign Up page");
+  };
+
   // Can set the link and text via props (In this case we are doing it through the SignIn page)
   return (
     <Text style={[styles.muted, style]}>
       {text}{' '}
-      <Link href={href} style={styles.link}>
+      <Link href={href} style={styles.link} onPress={handlePress}>
         {linkText}
       </Link>
     </Text>

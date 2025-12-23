@@ -10,10 +10,10 @@ export default function AuthField({
   secureTextEntry = false,
   keyboardType = 'default',
   autoCapitalize = 'none',
-  textContentType,
   style,
   inputStyle,
   labelStyle,
+  hasError = false,  
 }) {
   const [fontsLoaded] = useFonts({
     Barlow_400Regular,
@@ -33,8 +33,13 @@ export default function AuthField({
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         autoCapitalize={autoCapitalize}
-        textContentType={textContentType}
-        style={[styles.input, inputStyle]}
+        textContentType="oneTimeCode" // Helps with saved passwords and autofill
+        autoComplete="off" 
+        style={[
+          styles.input,
+          hasError && styles.errorBorder, 
+          inputStyle,
+        ]}
       />
     </View>
   );
@@ -61,5 +66,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingHorizontal: 12,
     paddingVertical: 10,
+  },
+  errorBorder: {
+    borderColor: '#5F43FF',
   },
 });
