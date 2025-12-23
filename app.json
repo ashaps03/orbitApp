@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme": "your-app-scheme", 
+    "scheme": "your-app-scheme",
     "name": "orbitApp",
     "slug": "orbitApp",
     "version": "1.0.0",
@@ -27,7 +27,8 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-font"
     ]
   }
 }

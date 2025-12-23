@@ -1,84 +1,102 @@
-import React from 'react';
-import { StyleSheet, Text, View, StyleSheet as RNStyleSheet } from 'react-native';
-import { Link } from 'expo-router';
+import {View, StyleSheet as RNStyleSheet, Image } from 'react-native';
 import colors from './theme/signInPageColors';
-import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { BlurView } from 'expo-blur';
-import styles from './styles/signInStyles'; 
+import styles from './components/SignIn/SignIncard/SignInPageStyles'; 
+import SignInCard from './components/SignIn/SignIncard/SignInCard'
+import GoogleSignInSection from './components/SignIn/GoogleSignInOption/GoogleSignInSection';
+import AuthFooterLink from './components/SignIn/AltSignInSignOutOption/AltAuthLinkPath';
+import AuthHeader from './components/SignIn/AuthHeader/AuthHeader';
+import BackButton from './components/SignIn/BackButton/BackButton';
+import { Animated, Easing } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { validateEmail } from '../utils/emailValidation';
 
 
 const SignIn = () => {
+  const handleGoogleSignIn = () => { //Connect to firebase later
+    console.log('Google Sign-In pressed');
+  };
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [emailError, setEmailError] = useState(null);
+
+
+
+  // handle email validation and submission
+  const handleSubmit = async () => { 
+    try {
+      validateEmail(email);
+    } catch (error) {
+      console.log("CAUGHT ERROR:", error.message);
+      setEmailError(error.message); 
+      return; 
+    }
+    console.log('submit', { email, passwordLength: password.length });
+  };
+
+  // handle email input change so we can handle ui updates (error message)
+  const handleEmailChange = (text) => {
+    setEmail(text);
+    if (emailError) setEmailError(null);   // remove error immediately
+  };
+  
+  
+
   return (
     <SafeAreaView style={styles.safe} edges={[]}>
       <View style={styles.container}>
 
-        {/* applying styling from seperate sheet */}
-        <View style={styles.backgroundLayer}>
-
-          {/* top-left circle */}
-          <View style={[styles.glowCircleBig, styles.topLeft]}>
-            <LinearGradient
-              colors={[
-                `${colors.circleTopRight}90`,
-                `${colors.circleTopRight}FF`,
-                'transparent',
-              ]}
-              style={styles.glowInner}
-            />
-          </View>
-
-          {/* top-right circle */}
-          <View style={[styles.glowCircleBig, styles.topRight]}>
-            <LinearGradient
-              colors={[
-                `${colors.circleTopLeft}90`,
-                `${colors.circleTopLeft}99`,
-                'transparent',
-              ]}
-              style={styles.glowInner}
-            />
-          </View>
-
-          {/* bottom circle */}
-          <View style={[styles.glowCircleBottom, styles.bottomCenter]}>
-            <LinearGradient
-              colors={[
-                `${colors.circleBottom}90`,
-                `${colors.circleBottom}1A`,
-                'transparent',
-              ]}
-              style={styles.glowInner}
-            />
-          </View>
-
-          {/* global blur */}
-          <BlurView
-            intensity={200}
-            tint="dark"
-            style={RNStyleSheet.absoluteFill}
-            pointerEvents="none"
-          />
-
-          {/* black overlay here */}
-          <View 
-            style={{
-              ...RNStyleSheet.absoluteFillObject,
-              backgroundColor: "rgba(0,0,0,0.5)",
-            }}
-            pointerEvents="none"
-          />
-
-        </View> 
+      {/* animating images */}
+      <Animated.Image
+        source={require('../assets/SignInBackground.png')}
+        style={[
+          styles.gradientImage,
+          { opacity: fadeAnim },
+        ]}
+        resizeMode="cover"
+        pointerEvents="none"
+        onLoadEnd={() => {
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 250,
+            useNativeDriver: true,
+          }).start();
+        }}
+      />
         
-        {/* text in the foreground*/}
+        {/*foreground*/}
         <View style={styles.content}>
-          <Text style={styles.h1}>Sign in</Text>
-          <Text style={styles.h2}>to your account</Text>
-          <Text style={styles.h4}>Welcome back you've been missed</Text>
-          <Link style={styles.href} href="/landingPage">
-            Back to landing Page
-          </Link>
+        
+        {/* components */}
+        <BackButton style={{ alignSelf: 'flex-start', marginLeft: 20 }} />
+
+
+        <AuthHeader
+          title="Sign in"
+          subtitle="to your account"
+          caption="Welcome back, you've been missed"
+        />
+
+        <SignInCard
+          email={email}
+          onChangeEmail={handleEmailChange}
+          password={password}
+          onChangePassword={setPassword}
+          onSubmit={handleSubmit}
+          
+          submitDisabled={!email || !password}
+          emailError={emailError}    
+        />
+
+        <AuthFooterLink
+          text="Don’t have an account?"
+          linkText="Sign up"
+          href="/signUp"
+        />
+        <GoogleSignInSection onGooglePress={handleGoogleSignIn}/>
+
         </View>
 
       </View>
