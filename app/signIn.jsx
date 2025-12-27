@@ -10,11 +10,20 @@ import BackButton from './components/SignIn/BackButton/BackButton';
 import { Animated, Easing } from 'react-native';
 import React, { useRef, useState } from 'react';
 import { validateEmail } from '../utils/emailValidation';
+import { useGoogleAuth } from "./services/googleAuth";
 
 
 const SignIn = () => {
-  const handleGoogleSignIn = () => { //Connect to firebase later
-    console.log('Google Sign-In pressed');
+
+  // Connect to Firebase for Google signin
+  const { signInWithGoogle, disabled } = useGoogleAuth();
+  const handleGoogleSignIn = async () => {
+    try {
+      const userCredential = await signInWithGoogle();
+      console.log("Google sign-in success:", userCredential.user.uid);
+    } catch (error) {
+      console.error("Google sign-in failed:", error.message);
+    }
   };
 
   const [email, setEmail] = useState('');

@@ -5,16 +5,16 @@ import { auth } from "./firebase";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const GOOGLE_CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID!;
-
 // Setup Google signin
 export function useGoogleAuth() {
     const [request, response, promptAsync] = Google.useAuthRequest({
-        clientId: GOOGLE_CLIENT_ID,
+        webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+        iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
+        androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
     });
 
     // On button tap for Google signin
-    async function signInWithGoogle() {
+    const signInWithGoogle = async () => {
         const result = await promptAsync();
 
         // User closed Google signin dialog or error occurred
